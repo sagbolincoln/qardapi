@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des entreprises{% endblock %}
+
+{% block body %}
+    <h1>📊 Liste des entreprises</h1>
+
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>SIREN</th>
+                <th>Date de création</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.siren }}</td>
+                    <td>{{ company.creationDate|date('Y-m-d H:i') }}</td>
+                    <td>{{ company.status }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune entreprise trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

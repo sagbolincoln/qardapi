@@ -1,0 +1,37 @@
+<h1>📊 Dashboard</h1>
+
+<p><strong>Nombre total d'entreprises :</strong> {{ totalCompanies }}</p>
+
+<h2>Répartition par statut juridique</h2>
+<ul>
+  {% for status, count in statusCounts %}
+    <li>{{ status }} : {{ count }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Répartition du chiffre d'affaires</h2>
+<canvas id="caChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('caChart').getContext('2d');
+  const caChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ turnovers|map(t => t.name)|json_encode|raw }},
+      datasets: [{
+        label: "Chiffre d'affaires",
+        data: {{ turnovers|map(t => t.turnover)|json_encode|raw }},
+        backgroundColor: 'rgba(54, 162, 235, 0.7)'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  ### ✅ Ton service base de données MySQL ###
+  database:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-qardapi}
+      MYSQL_USER: ${MYSQL_USER:-root}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-}
+    ports:
+      - "3306:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+
+  ### ✅ Ton service Symfony avec Apache ###
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - database
+
+volumes:
+  database_data:

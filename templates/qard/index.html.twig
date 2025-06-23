@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Qard Project{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+    <h1 class="mb-4">🚀 Qard Intégration</h1>
+    <nav class="mb-4">
+        <a href="{{ path('home') }}" class="btn btn-primary">🏠 Accueil</a>
+        <a href="{{ path('dashboard') }}" class="btn btn-success">📊 Dashboard</a>
+        <a href="{{ path('company_list') }}" class="btn btn-info">🏢 Entreprises</a>
+        <a href="{{ path('app_clients') }}" class="btn btn-warning">👥 Clients</a>
+    </nav>
+
+
+    {% block body %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,89 @@
+<h1>Détail de l'entreprise</h1>
+
+<h2>Profil complet</h2>
+<ul>
+  <li><strong>Nom :</strong> {{ profile.name }}</li>
+  <li><strong>Numéro d'enregistrement :</strong> {{ profile.registration_number }}</li>
+  <li><strong>Date INSEE :</strong> {{ profile.insee_registration_date }}</li>
+  <li><strong>Forme juridique :</strong> {{ profile.legal.form }}</li>
+
+  <li><strong>Noms commerciaux :</strong>
+    {% if profile.commercial_names is iterable %}
+      {{ profile.commercial_names | join(', ') }}
+    {% else %}
+      {{ profile.commercial_names }}
+    {% endif %}
+  </li>
+
+  <li><strong>Noms business :</strong>
+    {% if profile.business_names is iterable %}
+      {{ profile.business_names | join(', ') }}
+    {% else %}
+      {{ profile.business_names }}
+    {% endif %}
+  </li>
+
+  <li><strong>Catégorie :</strong> {{ profile.business_category }}</li>
+  <li><strong>Effectif :</strong> {{ profile.staff }} ({{ profile.staff_year }})</li>
+  <li><strong>Capital :</strong> {{ profile.capital.amount.value }} {{ profile.capital.amount.currency }}</li>
+
+  <li><strong>Activité :</strong>
+    Code : {{ profile.activity.ape_code }}<br>
+    Libellé : {{ profile.activity.ape_name }}<br>
+    Description : {{ profile.activity.description }}
+  </li>
+
+  <li><strong>Adresse :</strong>
+    {{ profile.headquarter.address.address_line1 }},
+    {{ profile.headquarter.address.city }},
+    {{ profile.headquarter.address.postal_code }},
+    {{ profile.headquarter.address.country }}
+  </li>
+</ul>
+
+<h2>Dirigeants</h2>
+
+{% if officers is iterable and officers|length > 0 %}
+  <ul>
+    {% for officer in officers %}
+      <li>
+        {# 👉 Nom complet #}
+        {{ officer.first_name }} {{ officer.last_name }}
+
+        {# 👉 Rôles, s'il y en a #}
+        {% if officer.roles is defined and officer.roles is iterable and officer.roles|length > 0 %}
+          —
+          {% for role in officer.roles %}
+            {# Certains objets role peuvent être vides, donc on vérifie #}
+            {% if role.name is defined %}
+              {{ role.name }}
+            {% else %}
+              {{ role }}
+            {% endif %}
+            {% if not loop.last %}, {% endif %}
+          {% endfor %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Aucun dirigeant trouvé.</p>
+{% endif %}
+
+
+<h2>Derniers bilans financiers</h2>
+
+{% if financials is not empty %}
+  <ul>
+    {% for bilan in financials %}
+      <li>
+        Année de clôture : {{ bilan.closing_year }} — 
+        Date de clôture : {{ bilan.closing_date }} — 
+        Soumis le : {{ bilan.submitted_date }} — 
+        Durée : {{ bilan.duration }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Aucun bilan disponible.</p>
+{% endif %}
