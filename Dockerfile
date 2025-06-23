@@ -1,30 +1,34 @@
-# ✅ Étapes clefs résumées
+# ⚙️ Base : PHP + Apache
 FROM php:8.2-apache
 
-# Install PHP extensions
+# ⚙️ Installer les extensions PHP pour Symfony
 RUN apt-get update && apt-get install -y \
     libicu-dev libzip-dev zip unzip git \
     && docker-php-ext-install intl pdo pdo_mysql opcache
 
+# ⚙️ Activer mod_rewrite pour Apache
 RUN a2enmod rewrite
 
+# ⚙️ Définir le dossier de travail
 WORKDIR /var/www/html
 
-# Install Composer depuis image officielle
+# ⚙️ Installer Composer depuis l'image officielle
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# D'abord copier composer.json + composer.lock pour cache Docker efficace
+# ⚙️ Copier d'abord composer.json et composer.lock pour utiliser le cache Docker
 COPY composer.json composer.lock ./
 
+# ⚙️ Installer les dépendances PHP sans exécuter les scripts
 RUN composer install --no-scripts --no-interaction --optimize-autoloader
 
-# Puis copier tout le projet
+# ⚙️ Copier tout le reste du projet
 COPY . .
 
-# ✅ Crée le dossier var/ s'il n'existe pas
-RUN mkdir -p var
+# ✅ CRÉER le dossier `var` s'il n'existe pas (évite l'erreur)
+RUN mkdir -p var vendor
 
-# ✅ Donne les droits pour Symfony
+# ✅ Donner les droits corrects à Symfony pour écrire dedans
 RUN chown -R www-data:www-data var vendor
 
+# ⚙️ Exposer le port HTTP
 EXPOSE 80
