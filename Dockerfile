@@ -1,7 +1,7 @@
-# ⚙️ Image de base : PHP avec Apache
+# ⚙️ Base : PHP + Apache
 FROM php:8.2-apache
 
-# ⚙️ Installe les extensions PHP nécessaires pour Symfony
+# ⚙️ Installe extensions PHP pour Symfony
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
@@ -10,22 +10,25 @@ RUN apt-get update && apt-get install -y \
     git \
     && docker-php-ext-install intl pdo pdo_mysql opcache
 
-# ⚙️ Active mod_rewrite pour Apache (Symfony en a besoin)
+# ⚙️ Active mod_rewrite pour Apache
 RUN a2enmod rewrite
-
-# ⚙️ Copie tout ton projet dans le conteneur
-COPY . /var/www/html/
 
 # ⚙️ Définit le répertoire de travail
 WORKDIR /var/www/html
 
-# ⚙️ Copie et installe Composer depuis l'image officielle
+# ⚙️ Copie et installe Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# ⚙️ Installe les dépendances PHP (en prod, on peut ajouter --no-dev)
-RUN composer install --no-interaction --optimize-autoloader
+# ⚙️ Étape clean : copie uniquement composer.*
+COPY composer.json composer.lock ./
 
-# ⚙️ Donne les bons droits à Symfony pour var/ et vendor/ si nécessaire
+# ⚙️ Installe les dépendances PHP SANS scripts pour éviter cache:clear plantage
+RUN composer install --no-scripts --no-interaction --optimize-autoloader
+
+# ⚙️ Copie le reste du projet après
+COPY . .
+
+# ⚙️ (Facultatif) Droits pour var/ et vendor/
 RUN chown -R www-data:www-data var vendor
 
 # ⚙️ Expose le port 80 pour Apache
