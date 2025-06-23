@@ -25,10 +25,10 @@ RUN composer install --no-scripts --no-interaction --optimize-autoloader
 COPY . .
 
 # ✅ CRÉER le dossier `var` s'il n'existe pas (évite l'erreur)
-# RUN mkdir -p var vendor
+RUN mkdir -p var vendor
 
 # ✅ Donner les droits corrects à Symfony pour écrire dedans
-#RUN chown -R www-data:www-data var vendor
+RUN chown -R www-data:www-data var vendor
 
 # ⚙️ Exposer le port HTTP
 EXPOSE 80
