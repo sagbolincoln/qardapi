@@ -28,7 +28,7 @@ COPY . .
 # RUN mkdir -p var vendor
 
 # ✅ Donner les droits corrects à Symfony pour écrire dedans
-RUN chown -R www-data:www-data var vendor
+#RUN chown -R www-data:www-data var vendor
 
 # ⚙️ Exposer le port HTTP
 EXPOSE 80
