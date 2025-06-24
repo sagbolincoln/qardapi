@@ -1,34 +1,23 @@
-# ⚙️ Base : PHP + Apache
-FROM php:8.2-apache
+# Utilise PHP-FPM sans Apache
+FROM php:8.2-fpm
 
-# ⚙️ Installer extensions PHP pour Symfony
+# Installe les extensions PHP pour Symfony
 RUN apt-get update && apt-get install -y \
     libicu-dev libzip-dev zip unzip git \
     && docker-php-ext-install intl pdo pdo_mysql opcache
 
-# ⚙️ Activer mod_rewrite pour Apache
-RUN a2enmod rewrite
-
-# ✅ Changer le DocumentRoot d'Apache : /var/www/public
-RUN sed -i 's|/var/www/html|/var/www/public|g' /etc/apache2/sites-available/000-default.conf
-
-# ⚙️ Définir le dossier de travail du projet (pas le public, mais le projet complet)
-WORKDIR /var/www
-
-# ⚙️ Installer Composer depuis l'image officielle
+# Copie Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# ⚙️ Copier composer.json et composer.lock pour profiter du cache Docker
-COPY composer.json composer.lock ./
+# Définir le répertoire de travail
+WORKDIR /var/www
 
-# ⚙️ Installer les dépendances sans scripts
+# Pré-installe les dépendances pour profiter du cache
+COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-interaction --optimize-autoloader
 
-# ⚙️ Copier tout le reste du projet
+# Copie le reste
 COPY . .
 
-# ✅ Créer les dossiers si besoin et donner les bons droits
-RUN mkdir -p var vendor && chown -R www-data:www-data var vendor
-
-# ⚙️ Exposer le port HTTP
-EXPOSE 80
+# Droits pour Symfony
+RUN mkdir -p var && chown -R www-data:www-data var vendor
