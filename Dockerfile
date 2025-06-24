@@ -23,4 +23,8 @@ COPY . .
 RUN mkdir -p var vendor && chown -R www-data:www-data var vendor
 
 # Commande unique pour Railway
+# Copie ton supervisord.conf dans le conteneur, à l’endroit standard
+COPY docker/nginx/supervisord.conf /etc/supervisord.conf
+
+# Et à la fin de ton Dockerfile, dis à Docker de lancer supervisord :
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
