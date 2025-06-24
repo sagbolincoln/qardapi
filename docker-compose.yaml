@@ -24,7 +24,7 @@ services:
     environment:
       MYSQL_DATABASE: qardapi
       MYSQL_USER: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+     # MYSQL_ROOT_PASSWORD: root  # ✅ Ajout important pour que MySQL démarre !
     ports:
       - "3307:3306"
     volumes:

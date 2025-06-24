@@ -1,0 +1,9 @@
+2025-06-24 08:53:32,168 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-06-24 08:53:32,176 INFO supervisord started with pid 1
+2025-06-24 08:53:33,178 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2025-06-24 08:53:33,180 INFO spawned: 'php-fpm' with pid 7
+2025-06-24 08:53:34,336 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2025-06-24 08:53:34,336 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-06-24 08:53:36,339 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2025-06-24 08:53:39,344 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2025-06-24 08:53:39,345 INFO gave up: nginx entered FATAL state, too many start retries too quickly

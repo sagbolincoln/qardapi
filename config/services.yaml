@@ -26,3 +26,4 @@ services:
         arguments:
             $baseUrl: '%env(QARD_API_URL)%'
             $apiKey: '%env(QARD_API_KEY)%'
+        public : true

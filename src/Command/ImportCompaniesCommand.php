@@ -4,15 +4,18 @@ namespace App\Command;
 
 use App\Entity\Company;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+#[AsCommand(
+    name: 'app:import-companies',
+    description: 'Importe les utilisateurs depuis Qard et les enregistre dans la base de données.'
+)]
 class ImportCompaniesCommand extends Command
 {
-    protected static $defaultName = 'app:import-companies';
-
     private EntityManagerInterface $em;
     private HttpClientInterface $httpClient;
     private string $qardApiKey;
@@ -24,23 +27,17 @@ class ImportCompaniesCommand extends Command
         $this->em = $em;
         $this->httpClient = $httpClient;
 
-        // ✅ Récupère depuis l'environnement
-        $this->qardApiKey = $_ENV['QARD_API_KEY'];
-        $this->qardApiUrl = $_ENV['QARD_API_URL'];
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Importe les utilisateurs depuis Qard et les enregistre dans la base de données.');
+        // Récupère depuis l'environnement
+        $this->qardApiKey = $_ENV['QARD_API_KEY'] ?? '';
+        $this->qardApiUrl = $_ENV['QARD_API_URL'] ?? '';
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // ✅ Utilise l'URL de config
+        // Utilise l'URL de config
         $url = $this->qardApiUrl . '/users';
 
-        // ✅ Ajoute bien l'en-tête de clé API
+        // Ajoute bien l'en-tête de clé API
         $response = $this->httpClient->request('GET', $url, [
             'headers' => [
                 'accept' => 'application/json',

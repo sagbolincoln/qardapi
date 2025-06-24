@@ -17,6 +17,7 @@ class QardApiService
         $this->apiKey = $apiKey;
     }
 
+
     public function getClients(): array
     {
         $response = $this->httpClient->request(
