@@ -20,4 +20,4 @@ RUN composer install --no-scripts --no-interaction --optimize-autoloader
 COPY . .
 
 # Droits pour Symfony
-RUN mkdir -p var && chown -R www-data:www-data var vendor
+RUN mkdir -p var vendor && chown -R www-data:www-data var vendor
