@@ -21,3 +21,6 @@ COPY . .
 
 # Droits pour Symfony
 RUN mkdir -p var vendor && chown -R www-data:www-data var vendor
+
+# Commande unique pour Railway
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]
