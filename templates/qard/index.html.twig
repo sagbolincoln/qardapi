@@ -7,11 +7,36 @@
 <body class="container py-4">
     <h1 class="mb-4">🚀 Qard Intégration</h1>
     <nav class="mb-4">
-        <a href="{{ path('home') }}" class="btn btn-primary">🏠 Accueil</a>
-        <a href="{{ path('dashboard') }}" class="btn btn-success">📊 Dashboard</a>
-        <a href="{{ path('company_list') }}" class="btn btn-info">🏢 Entreprises</a>
-        <a href="{{ path('app_clients') }}" class="btn btn-warning">👥 Clients</a>
-    </nav>
+
+    <div class="mb-3">
+        <a href="{{ path('home') }}" class="btn btn-primary w-100">🏠 Accueil</a>
+        <small class="text-muted">Retourner à la page d'accueil</small>
+    </div>
+
+    <div class="mb-3">
+        <a href="{{ path('app_clients') }}" class="btn btn-warning w-100">👥 Clients</a>
+        <small class="text-muted">1. Gérer vos clients ...... Ici on voit le client connecté </small>
+    </div>
+
+    <div class="mb-3">
+        <a href="{{ path('company_list') }}" class="btn btn-info w-100">🏢 Entreprises</a>
+        <small class="text-muted">2. Il faut creer un utilisateur legal ici et l'afficher avec son siret  : Voir la liste des entreprises</small>
+    </div>
+
+    <div class="mb-3">
+        <a href="{{ path('company_detail', {'id': 'c1547414-cee8-4af7-942b-90c44e96fe0a'}) }}" class="btn btn-secondary w-100">
+            🔍 Détails de l'entreprise
+        </a>
+        <small class="text-muted">3. Voir les informations d'une entreprise spécifique du client </small>
+    </div>
+
+    <div class="mb-3">
+        <a href="{{ path('dashboard') }}" class="btn btn-success w-100">📊 Dashboard</a>
+        <small class="text-muted">4. Accéder au tableau de bord</small>
+    </div>
+
+</nav>
+
 
 
     {% block body %}{% endblock %}
