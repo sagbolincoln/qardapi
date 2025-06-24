@@ -2,6 +2,8 @@
 FROM php:8.2-fpm
 
 # Installe les extensions PHP pour Symfony
+RUN apt-get update && apt-get install -y supervisor
+
 RUN apt-get update && apt-get install -y \
     libicu-dev libzip-dev zip unzip git \
     && docker-php-ext-install intl pdo pdo_mysql opcache
